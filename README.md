@@ -3,7 +3,7 @@
 1. Make sure Python installed to your machine.
 
 2. Install project dependencies by running these commands ->
-  - python3 -m pip install django
+  - python3 -m pip install flask
   - python3 -m pip install pandas
   - python3 -m pip install ibm_watson
   
