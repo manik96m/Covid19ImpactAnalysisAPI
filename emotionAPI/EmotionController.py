@@ -22,6 +22,8 @@ def start(request):
     joyScore = 0;    
     sadnessScore = 0;    
     fearScore = 0;
+    data = {}
+    outfile = open("sample.json",'w')
     if(location.casefold()=='canada'):
         CAhotspotCSV=pd.read_csv('COVIDCANADA.csv')
         for column_name, column in CAhotspotCSV.transpose().iterrows():
@@ -31,6 +33,15 @@ def start(request):
                     print('HOTSPOTS IN CANADA')
                     print(uniqueHotspotCA)
                     analyticScore, tentativeScore, confidentScore, joyScore, sadnessScore, fearScore = calculateSentiment.tweetEmotions(uniqueHotspotCA)
+                    data[uniqueHotspotCA] =  {
+                                                      "proviceName": uniqueHotspotCA,
+                                                      "analyticScore": analyticScore,
+                                                      "tentativeScore": tentativeScore,
+                                                      "confidentScore": confidentScore,
+                                                      "joyScore": joyScore,
+                                                      "sadnessScore": sadnessScore,
+                                                      "fearScore": fearScore
+                                                    }
     if(location.casefold()=='india'):
         INhotspotCSV=pd.read_csv('covid_19_india.csv')
         for column_name, column in INhotspotCSV.transpose().iterrows():
@@ -40,7 +51,14 @@ def start(request):
                     print('HOTSPOTS IN INDIA')
                     print(uniqueHotspotIN)
                     analyticScore, tentativeScore, confidentScore, joyScore, sadnessScore, fearScore = calculateSentiment.tweetEmotions(uniqueHotspotIN) 
-    
-    return render(request,'result.html',{'analyticScore':analyticScore,
-    'tentativeScore':tentativeScore,'confidentScore':confidentScore,'joyScore':joyScore,
-    'sadnessScore':sadnessScore,'fearScore':fearScore} )
+                    data[uniqueHotspotIN] =  {
+                                                      "proviceName": uniqueHotspotIN,
+                                                      "analyticScore": analyticScore,
+                                                      "tentativeScore": tentativeScore,
+                                                      "confidentScore": confidentScore,
+                                                      "joyScore": joyScore,
+                                                      "sadnessScore": sadnessScore,
+                                                      "fearScore": fearScore
+                                                    }
+    outfile.write(json.dumps(data))
+    return render(request,'result.html',{'emotionJSON':data} )

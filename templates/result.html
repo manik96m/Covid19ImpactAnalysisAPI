@@ -1,16 +1,5 @@
 {% extends 'base.html'%}
 
 {% block content%}
-
-<h2>Analytic Score</h2>{{analyticScore}}
-<h2>Tentative Score</h2>{{tentativeScore}}
-<h2>Confident Score</h2>{{confidentScore}}
-<h2>Joy Score</h2>{{joyScore}}
-<h2>Sadness Score</h2>{{sadnessScore}}
-<h2>Fear Score</h2>{{fearScore}}
-
-{%for item in jsonObject%}
-        <li>{{item}}</li>
-    {% endfor %}
-
+<h2>Data</h2>{{emotionJSON}}
 {% endblock %}

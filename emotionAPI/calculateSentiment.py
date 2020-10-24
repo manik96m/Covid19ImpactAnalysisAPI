@@ -19,7 +19,7 @@ toneAnalyser.set_service_url(url)
 
 def tweetEmotions(location):   
     tweet = extractTweet.getTweets(location)    
-    outfile = open("sample.json",'w')    
+    #outfile = open("sample.json",'w')
     analyticScore = 0;    
     tentativeScore = 0;    
     confidentScore = 0;    
@@ -44,7 +44,7 @@ def tweetEmotions(location):
                 sadnessScore+=row['score']            
             if(row['tone_id']=='fear'):                
                 fearScore+=row['score']                               
-            outfile.write(json_object)    
+            #outfile.write(json_object)
             
     print('EMOTIONAL ANALYSIS')    
     print('analyticScore')     
