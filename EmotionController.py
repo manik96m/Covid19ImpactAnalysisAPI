@@ -6,17 +6,15 @@ import flask
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
 
-@app.route('/getScores', methods=['GET'])
-def start():
-    location = input("Enter the location to analyse tweets : ") 
-    analyticScore = 0;    
+@app.route('/getScores/<location>', methods=['GET'])
+def start(location = 'CANADA'):
+    analyticScore = 0;
     tentativeScore = 0;    
     confidentScore = 0;    
     joyScore = 0;    
     sadnessScore = 0;    
     fearScore = 0;
     data = {}
-    outfile = open("sample.json",'w')
     if(location.casefold()=='canada'):
         CAhotspotCSV=pd.read_csv('COVIDCANADA.csv')
         for column_name, column in CAhotspotCSV.transpose().iterrows():
@@ -27,7 +25,7 @@ def start():
                     print(uniqueHotspotCA)
                     analyticScore, tentativeScore, confidentScore, joyScore, sadnessScore, fearScore =  tweetEmotions(uniqueHotspotCA)
                     data[uniqueHotspotCA] =  {
-                                  "proviceName": uniqueHotspotCA,
+                                  "provinceName": uniqueHotspotCA,
                                   "analyticScore": analyticScore,
                                   "tentativeScore": tentativeScore,
                                   "confidentScore": confidentScore,
@@ -47,7 +45,7 @@ def start():
                     print(uniqueHotspotIN)
                     analyticScore, tentativeScore, confidentScore, joyScore, sadnessScore, fearScore =  tweetEmotions(uniqueHotspotIN)              
                     data[uniqueHotspotIN] =  {
-                                  "proviceName": uniqueHotspotIN,
+                                  "provinceName": uniqueHotspotIN,
                                   "analyticScore": analyticScore,
                                   "tentativeScore": tentativeScore,
                                   "confidentScore": confidentScore,
@@ -55,12 +53,7 @@ def start():
                                   "sadnessScore": sadnessScore,
                                   "fearScore": fearScore
                                 }
-                              
-                            
-                    
-    outfile.write(json.dumps(data))
-    return json.dumps(data)
 
-if __name__ == "__main__":
-   # running controller function
-   start()
+    return data
+
+app.run()
