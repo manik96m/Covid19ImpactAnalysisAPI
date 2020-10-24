@@ -9,4 +9,4 @@
   
 # Running the project
 
-  Run this command -> python3 manage.py runserver
+  Run this command -> python3 EmotionController.py
