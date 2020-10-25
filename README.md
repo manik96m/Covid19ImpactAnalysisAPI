@@ -6,6 +6,7 @@
   - python3 -m pip install flask
   - python3 -m pip install pandas
   - python3 -m pip install ibm_watson
+  - python3 -m pip install flask_cors
   
 # Running the project
 
