@@ -1,10 +1,12 @@
 from extractTweet import *
 from calculateSentiment import *
 from _ast import If
+from flask_cors import CORS
 import flask
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
+CORS(app)
 
 @app.route('/getScores/<location>', methods=['GET'])
 def start(location = 'CANADA'):
