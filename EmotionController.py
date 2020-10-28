@@ -1,5 +1,12 @@
-from extractTweet import *
-from calculateSentiment import *
+"""
+Created on Oct 22 2020
+
+@author: tincythomas
+"""
+from ExtractTweet import *
+from CalculateSentiment import *
+from Canada import *
+from India import *
 from _ast import If
 from flask_cors import CORS
 import flask
@@ -8,54 +15,40 @@ app = flask.Flask(__name__)
 app.config["DEBUG"] = True
 CORS(app)
 
-@app.route('/getScores/<location>', methods=['GET'])
-def start(location = 'CANADA'):
-    analyticScore = 0;
-    tentativeScore = 0;    
-    confidentScore = 0;    
-    joyScore = 0;    
-    sadnessScore = 0;    
-    fearScore = 0;
-    data = {}
-    if(location.casefold()=='canada'):
-        CAhotspotCSV=pd.read_csv('COVIDCANADA.csv')
-        for column_name, column in CAhotspotCSV.transpose().iterrows():
-            if(column_name=='province'):
-                CAhotspot=CAhotspotCSV[column_name].dropna().unique()
-                for uniqueHotspotCA in CAhotspot: 
-                    print('HOTSPOTS IN CANADA')
-                    print(uniqueHotspotCA)
-                    analyticScore, tentativeScore, confidentScore, joyScore, sadnessScore, fearScore =  tweetEmotions(uniqueHotspotCA)
-                    data[uniqueHotspotCA] =  {
-                                  "provinceName": uniqueHotspotCA,
-                                  "analyticScore": analyticScore,
-                                  "tentativeScore": tentativeScore,
-                                  "confidentScore": confidentScore,
-                                  "joyScore": joyScore,
-                                  "sadnessScore": sadnessScore,
-                                  "fearScore": fearScore
-                                }
-                    
-                    
-    if(location.casefold()=='india'):
-        INhotspotCSV=pd.read_csv('covid_19_india.csv')
-        for column_name, column in INhotspotCSV.transpose().iterrows():
-            if(column_name=='State/UnionTerritory'):
-                INhotspot=INhotspotCSV[column_name].dropna().unique()
-                for uniqueHotspotIN in INhotspot: 
-                    print('HOTSPOTS IN INDIA')
-                    print(uniqueHotspotIN)
-                    analyticScore, tentativeScore, confidentScore, joyScore, sadnessScore, fearScore =  tweetEmotions(uniqueHotspotIN)              
-                    data[uniqueHotspotIN] =  {
-                                  "provinceName": uniqueHotspotIN,
-                                  "analyticScore": analyticScore,
-                                  "tentativeScore": tentativeScore,
-                                  "confidentScore": confidentScore,
-                                  "joyScore": joyScore,
-                                  "sadnessScore": sadnessScore,
-                                  "fearScore": fearScore
-                                }
+class EmotionController:
+    def __init__(self):
+        self.emotions = CalculateSentiments();
 
-    return data
+    @app.route('/getScores', methods=['GET'])
+    def start(self,location = 'canada'):
+        data = {}
+
+        tweet = ExtractTweet()
+        if(location.casefold()=='canada'):
+            hotSpots = Canada()
+        if(location.casefold()=='india'):
+            hotSpots = India()
+
+        hotSpotsValues = hotSpots.getHotSpots()
+
+        for uniqueHotspot in hotSpotsValues:
+            locationTweet = tweet.getTweets(uniqueHotspot)
+            if(locationTweet.empty==False):
+                print(uniqueHotspot)
+                data[uniqueHotspot] = self.emotions.getScoresforTweets(uniqueHotspot,locationTweet)
+
+        print(data)
+        return data
+
+    def scoreForText(self,text):
+        data = self.emotions.getScoreForText(text)
+        print(data)
+        return data
 
 app.run()
+
+if __name__ == "__main__":
+   # running controller function
+   e = EmotionController()
+   e.scoreForText('This is my text and I am feeling happy to write this text but it could have been better')
+   e.start()
