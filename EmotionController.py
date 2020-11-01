@@ -25,8 +25,8 @@ class EmotionController:
         hotSpotsValues = hotSpots.getHotSpots()
 
         for uniqueHotspot in hotSpotsValues:
-            locationTweet = tweet.getTweets(uniqueHotspot)
-            if(locationTweet.empty == False):
+            locationTweet = tweet.getTweets(uniqueHotspot,location)
+            if(locationTweet.empty==False):
                 print(uniqueHotspot)
                 data[uniqueHotspot] = self.emotions.getScoresforTweets(
                     uniqueHotspot, locationTweet)
