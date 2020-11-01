@@ -12,4 +12,4 @@
 
 # Running the project
 
-Run this command -> python3 EmotionController.py
+Run this command -> python3 ApplicationController.py

@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_cors import CORS
 from flask_restful import Api, Resource
+from EmotionController import EmotionController
 
 app = Flask(__name__)
 CORS(app)
@@ -14,11 +15,13 @@ class EmotionScore(Resource):
 
 
 class EmotionScoreList(Resource):
+    emotionController = EmotionController()
+
     def get(self, location='CANADA'):
-        return {}
+        return self.emotionController.start()
 
 
-api.add_resource(EmotionScore, "/emotion/score/<string:location>")
+api.add_resource(EmotionScore, "/emotion/score")
 api.add_resource(EmotionScoreList, "/emotion/score/location/<string:location>")
 
 app.run()
