@@ -16,3 +16,6 @@
 # Running the project
 
 Run this command -> python3 ApplicationController.py
+
+#Running Junit
+run the command -> python -m unittest filename 
