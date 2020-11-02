@@ -39,7 +39,7 @@ class ExtractTweet:
                                 results[0]['geometry']['lng'],
                                 results[0]['components']['country_code'],
                                 results[0]['annotations']['timezone']['name']))
-        geo=str(results[0]['geometry']['lat']) +','+str(results[0]['geometry']['lng'])+ ','+'5000km'
+        geo=str(results[0]['geometry']['lat']) +','+str(results[0]['geometry']['lng'])+ ','+'100km'
         print(geo)
         tweets = tw.Cursor(self.api.search,q=self.new_search,lang="en",geocode=geo).items(20)
         tweetsviatweepy = [[tweet.text.encode('utf-8'), tweet.user.location] for tweet in tweets]
