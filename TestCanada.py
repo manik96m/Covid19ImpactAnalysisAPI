@@ -1,3 +1,9 @@
+"""
+Created on Oct 30 2020
+
+@author: tincythomas
+JUNIT test cases to get Covid19 Hotspots of Canada
+"""
 import unittest
 
 from Canada import *

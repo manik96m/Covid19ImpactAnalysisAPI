@@ -9,19 +9,21 @@ Created on Thu Oct 22 07:32:12 2020
 import pandas as pd
 import tweepy as tw
 from opencage.geocoder import OpenCageGeocode
-
+from configparser import ConfigParser
 
 
 class ExtractTweet:
     def __init__(self):
+        configur = ConfigParser()
+        configur.read("config.ini")
         #OpenGeoCoder Credentials
-        self.geocoderkey = 'c71a1dad8baa41ef9183884ca41eaa8e'
+        self.geocoderkey = configur.get('tweepy','geocoderkey')
         self.geocoder = OpenCageGeocode(self.geocoderkey)
         ####TWEEPY API Credentials
-        self.consumer_key = 'HYf9hWD2GTQIE9FJj2KnmEgK3'
-        self.consumer_secret = 'UcoTUERlFUdNEH8bSGdsurWmBgkWBeQ8bibYpGCTJ6yBETRZoi'
-        self.access_token = '1072429171282825216-vaSqhHHiH1qgiSG8G6RVO7XlfmUj9v'
-        self.access_token_secret = 'LeQGo79kgA9dLcpgRYIbpnqX4tDgzTDU6C2xbpgJsFyKy'
+        self.consumer_key = configur.get('tweepy','consumer_key')
+        self.consumer_secret = configur.get('tweepy','consumer_secret')
+        self.access_token = configur.get('tweepy','access_token')
+        self.access_token_secret = configur.get('tweepy','access_token_secret')
         self.auth = tw.OAuthHandler(self.consumer_key, self.consumer_secret)
         self.auth.set_access_token(self.access_token, self.access_token_secret)
         self.api = tw.API(self.auth,wait_on_rate_limit=True)

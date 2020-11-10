@@ -1,3 +1,9 @@
+"""
+Created on Oct 30 2020
+
+@author: tincythomas
+JUNIT test cases to check the scores of Tweets from Covid19 Hotspots
+"""
 import unittest
 from CalculateSentiment import *
 import pandas as pd
@@ -66,6 +72,7 @@ class TestCalculateSentiments(unittest.TestCase):
         #tweet_text = pd.DataFrame(data=str('').encode('utf-8'), columns=['text', "user_location"])
         cal = CalculateSentiments()
         result = cal.getScoresforTweets('Delhi',tweet_text)
+        self.assertTrue(len(result) != 0)
         self.assertTrue('Delhi' in result.values())
         self.assertTrue('fearScore' in result.keys())
 
