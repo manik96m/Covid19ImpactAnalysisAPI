@@ -17,8 +17,8 @@ class EmotionScore(Resource):
 class EmotionScoreList(Resource):
     emotionController = EmotionController()
 
-    def get(self, location='CANADA'):
-        return self.emotionController.start()
+    def get(self, location):
+        return self.emotionController.start(location)
 
 
 api.add_resource(EmotionScore, "/emotion/score")

@@ -13,7 +13,7 @@ class EmotionController:
     def __init__(self):
         self.emotions = CalculateSentiments()
 
-    def start(self, location='canada'):
+    def start(self, location):
         data = {}
 
         tweet = ExtractTweet()
