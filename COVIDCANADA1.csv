@@ -1,0 +1,5 @@
+﻿case_id,provincial_case_id,age,sex,health_region,province,country,date_report,report_week,travel_yn,travel_history_country,locally_acquired
+1,1,50-59,Male,Toronto,Ontario,Canada,25-01-2020,19-01-2020,1,China,
+2,2,50-59,Female,Toronto,Ontario,Canada,27-01-2020,26-01-2020,1,China,
+3,1,40-49,Male,Vancouver Coastal,BC,Canada,28-01-2020,26-01-2020,1,China,
+4,3,20-29,Female,Middlesex-London,Ontario,Canada,31-01-2020,26-01-2020,1,China,
