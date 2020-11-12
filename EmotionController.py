@@ -27,14 +27,14 @@ class EmotionController:
         for uniqueHotspot in hotSpotsValues:
             locationTweet = tweet.getTweets(uniqueHotspot,location)
             if(locationTweet.empty==False):
-                print(uniqueHotspot)
+                #print(uniqueHotspot)
                 data[uniqueHotspot] = self.emotions.getScoresforTweets(
                     uniqueHotspot, locationTweet)
 
-        print(data)
+        #print(data)
         return data
 
     def scoreForText(self, text):
         data = self.emotions.getScoreForText(text)
-        print(data)
+        #print(data)
         return data

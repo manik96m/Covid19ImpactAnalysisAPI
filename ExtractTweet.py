@@ -34,18 +34,18 @@ class ExtractTweet:
 
     def getTweets(self,province,country):
         location_geo=str(province)+','+ str(country)
-        print(location_geo)
+        #print(location_geo)
         results = self.geocoder.geocode(location_geo)
 
-        print(u'%f;%f;%s;%s' % (results[0]['geometry']['lat'],
-                                results[0]['geometry']['lng'],
-                                results[0]['components']['country_code'],
-                                results[0]['annotations']['timezone']['name']))
+        #print(u'%f;%f;%s;%s' % (results[0]['geometry']['lat'],
+        #                        results[0]['geometry']['lng'],
+        #                        results[0]['components']['country_code'],
+        #                        results[0]['annotations']['timezone']['name']))
         geo=str(results[0]['geometry']['lat']) +','+str(results[0]['geometry']['lng'])+ ','+'5000km'
-        print(geo)
+        #print(geo)
         tweets = tw.Cursor(self.api.search,q=self.new_search,lang="en",geocode=geo).items(20)
         tweetsviatweepy = [[tweet.text.encode('utf-8'), tweet.user.location] for tweet in tweets]
         tweet_text = pd.DataFrame(data=tweetsviatweepy,
                                   columns=['text', "user_location"])
-        print(tweet_text)
+        #print(tweet_text)
         return tweet_text
