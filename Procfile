@@ -1,1 +1,1 @@
-web: gunicorn ApplicationController:app
+web: gunicorn ApplicationController:wsgi
