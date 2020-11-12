@@ -1,1 +1,1 @@
-worker: python ApplicationController.py
+web: python ApplicationController.py
