@@ -3,7 +3,7 @@ from flask_cors import CORS
 from flask_restful import Api, Resource
 from EmotionController import EmotionController
 
-app = Flask(__main__)
+app = Flask(__name__)
 CORS(app)
 app.config["DEBUG"] = True
 api = Api(app)
