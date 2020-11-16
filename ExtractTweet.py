@@ -33,6 +33,7 @@ class ExtractTweet:
 
 
     def getTweets(self,province,country):
+        print('Tweet Start')
         location_geo=str(province)+','+ str(country)
         #print(location_geo)
         results = self.geocoder.geocode(location_geo)
@@ -48,4 +49,5 @@ class ExtractTweet:
         tweet_text = pd.DataFrame(data=tweetsviatweepy,
                                   columns=['text', "user_location"])
         #print(tweet_text)
-        return tweet_text
+        print('Tweet Stop')
+        return province,tweet_text
