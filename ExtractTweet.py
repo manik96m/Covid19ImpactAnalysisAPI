@@ -9,21 +9,20 @@ Created on Thu Oct 22 07:32:12 2020
 import pandas as pd
 import tweepy as tw
 from opencage.geocoder import OpenCageGeocode
-from configparser import ConfigParser
-
+from dotenv import load_dotenv
+load_dotenv()
+import os
 
 class ExtractTweet:
     def __init__(self):
-        configur = ConfigParser()
-        configur.read("config.ini")
         #OpenGeoCoder Credentials
-        self.geocoderkey = configur.get('tweepy','geocoderkey')
+        self.geocoderkey = os.environ.get("geocoderkey")
         self.geocoder = OpenCageGeocode(self.geocoderkey)
         ####TWEEPY API Credentials
-        self.consumer_key = configur.get('tweepy','consumer_key')
-        self.consumer_secret = configur.get('tweepy','consumer_secret')
-        self.access_token = configur.get('tweepy','access_token')
-        self.access_token_secret = configur.get('tweepy','access_token_secret')
+        self.consumer_key = os.environ.get("consumer_key")
+        self.consumer_secret = os.environ.get("consumer_secret")
+        self.access_token = os.environ.get("access_token")
+        self.access_token_secret = os.environ.get("access_token_secret")
         self.auth = tw.OAuthHandler(self.consumer_key, self.consumer_secret)
         self.auth.set_access_token(self.access_token, self.access_token_secret)
         self.api = tw.API(self.auth,wait_on_rate_limit=True)
@@ -51,3 +50,9 @@ class ExtractTweet:
         #print(tweet_text)
         print('Tweet Stop')
         return province,tweet_text
+
+    def getTweetsHashTag(self, hashtag):
+        self.new_search = hashtag + " -filter:retweets"
+        tweets = tw.Cursor(self.api.search,q=self.new_search,lang="en",
+                           since="2017-04-03",full_text = True).items(20)
+        return tweets

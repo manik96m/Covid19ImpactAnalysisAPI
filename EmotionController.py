@@ -96,3 +96,17 @@ class EmotionController:
 
         #print(data)
         return data
+
+    def getTweetsScores(self, hashtag):
+        print('Inside getTweetsScores')
+        tweet = ExtractTweet()
+        result = tweet.getTweetsHashTag(hashtag)
+
+        tweets = {}
+        i = 0;
+        for tweet in result:
+            data = self.emotions.getScoreForText(tweet.text)
+            tweets[i] = data
+            i+=1
+
+        return tweets

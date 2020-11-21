@@ -10,8 +10,9 @@ api = Api(app)
 
 
 class EmotionScore(Resource):
-    def get(self):
-        return {}
+    emotionController = EmotionController()
+    def get(self, text):
+        return self.emotionController.scoreForText(text)
 
 
 class EmotionScoreList(Resource):
@@ -20,9 +21,17 @@ class EmotionScoreList(Resource):
     def get(self, location):
         return self.emotionController.start(location)
 
+class TweetScoreList(Resource):
+    emotionController = EmotionController()
 
-api.add_resource(EmotionScore, "/emotion/score")
+    def get(self, hashtag):
+        return self.emotionController.getTweetsScores(hashtag)
+
+
+api.add_resource(EmotionScore, "/emotion/score/<string:text>")
 api.add_resource(EmotionScoreList, "/emotion/score/location/<string:location>")
+api.add_resource(TweetScoreList, "/tweet/score/<string:hashtag>")
+
 
 if __name__ == '__main__':
     app.run(debug=True)
