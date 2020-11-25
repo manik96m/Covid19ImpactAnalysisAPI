@@ -13,64 +13,68 @@ import numpy as np
 import time;
 
 class EmotionController:
-    def __init__(self):
-        self.emotions = CalculateSentiments()
 
     def start(self, location):
         print('Start---------')
         start = int(time.time())
         data = {}
 
-        tweet = ExtractTweet()
+
         if(location.casefold() == 'canada'):
             hotSpots = Canada()
         if(location.casefold() == 'india'):
             hotSpots = India()
 
         hotSpotsValues = hotSpots.getHotSpots()
-        print('Start---------1')
+        print('After taking HorSpots')
         que = queue.Queue()
         threads_list = list()
         for uniqueHotspot in hotSpotsValues:
-            print('Start---------2')
+            tweet = ExtractTweet()
+            print('Getting tweets for hotspots')
             th = Thread(target=lambda q, arg1: q.put(tweet.getTweets(uniqueHotspot,location)), args=(que, '' ))
             #t.append(threading.Thread(target=tweet.getTweets, args=(uniqueHotspot,location)))
             th.start()
             threads_list.append(th)
+            print('Ending tweets for hotspots')
 
-        time.sleep(10)
+
         # Join all the threads
         for t in threads_list:
             #t.start()
-            print('Start---------3')
+            #time.sleep(2)
+            print('Joining tweets for hotspots',t)
             t.join();
+            #print('t.isAlive()',t,' -- ', t.isAlive())
 
         # Check thread's return value
         tweets = {}
         while not que.empty():
-            print('Start---------4')
+            print('Storing return value from tweets')
             province,locationTweet  = que.get()
             tweets[province] = locationTweet
 
         que = queue.Queue()
         threads_list = list()
         for location in tweets:
-            print('Start---------5')
+            self.emotions = CalculateSentiments()
+            print('Starting IBM Tone Analyser')
             th = Thread(target=lambda q, arg1: q.put(self.emotions.getScoresforTweets(
                 location, tweets[location])), args=(que, '' ))
             #t.append(threading.Thread(target=tweet.getTweets, args=(uniqueHotspot,location)))
             th.start()
             threads_list.append(th)
+            print('Ending IBM Tone Analyser')
 
         # Join all the threads
         for t in threads_list:
-            print('Start---------6')
+            print('Joining IBM Tone Analyser ', t)
             #t.start()
             t.join()
 
         # Check thread's return value
         while not que.empty():
-            print('Start---------7')
+            print('Return Values from IBM Tone Analyser')
             location,result  = que.get()
             print("data----",result)
             data[location] = result
