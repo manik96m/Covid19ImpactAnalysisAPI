@@ -90,26 +90,39 @@ class EmotionController:
         #print(data)
         return data
 
-    def scoreforProvince(self, province, country):
+    def scoreforProvince(self, lat, long):
         data = {}
+        emotions = CalculateSentiments()
         tweet = ExtractTweet()
-        locationTweet = tweet.getTweets(province,country)
+        province = str(lat)+ str(long)
+        locationTweet = tweet.getTweetsLatLong(lat, long)
         if(locationTweet.empty==False):
             #print(uniqueHotspot)
-            data[province] = self.emotions.getScoresforTweets(province, locationTweet)
-
+            data[province] = emotions.getScoresforTweets(province, locationTweet)
+        else:
+            data =  {
+                "provinceName": province,
+                "analyticScore": 0,
+                "tentativeScore": 0,
+                "confidentScore": 0,
+                "joyScore": 0,
+                "sadnessScore": 0,
+                "fearScore": 0,
+                "angerScore": 0
+            }
         #print(data)
         return data
 
     def getTweetsScores(self, hashtag):
         print('Inside getTweetsScores')
+        emotions = CalculateSentiments()
         tweet = ExtractTweet()
         result = tweet.getTweetsHashTag(hashtag)
 
         tweets = {}
         i = 0;
         for tweet in result:
-            data = self.emotions.getScoreForText(tweet.text)
+            data = emotions.getScoreForText(tweet.text)
             tweets[i] = data
             i+=1
 

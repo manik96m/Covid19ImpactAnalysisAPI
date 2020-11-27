@@ -27,10 +27,18 @@ class TweetScoreList(Resource):
     def get(self, hashtag):
         return self.emotionController.getTweetsScores(hashtag)
 
+class ProvinceScoreList(Resource):
+    emotionController = EmotionController()
+
+    def get(self, lat, long):
+        return self.emotionController.scoreforProvince(lat, long)
+
 
 api.add_resource(EmotionScore, "/emotion/score/<string:text>")
 api.add_resource(EmotionScoreList, "/emotion/score/location/<string:location>")
 api.add_resource(TweetScoreList, "/tweet/score/<string:hashtag>")
+api.add_resource(ProvinceScoreList, "/province/score/<string:lat>,<string:long>")
+
 
 
 if __name__ == '__main__':
