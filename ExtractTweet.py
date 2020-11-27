@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/.env python3
 # -*- coding: utf-8 -*-
 """
 Created on Thu Oct 22 07:32:12 2020
@@ -8,7 +8,7 @@ Created on Thu Oct 22 07:32:12 2020
 
 import pandas as pd
 import tweepy as tw
-from opencage.geocoder import OpenCageGeocode
+#from opencage.geocoder import OpenCageGeocode
 from dotenv import load_dotenv
 load_dotenv()
 import os
@@ -16,8 +16,8 @@ import os
 class ExtractTweet:
     def __init__(self):
         #OpenGeoCoder Credentials
-        self.geocoderkey = os.environ.get("geocoderkey")
-        self.geocoder = OpenCageGeocode(self.geocoderkey)
+        #self.geocoderkey = os.environ.get("geocoderkey")
+        #self.geocoder = OpenCageGeocode(self.geocoderkey)
         ####TWEEPY API Credentials
         self.consumer_key = os.environ.get("consumer_key")
         self.consumer_secret = os.environ.get("consumer_secret")
@@ -33,17 +33,17 @@ class ExtractTweet:
 
     def getTweets(self,province,country):
         print('Tweet Start')
-        location_geo=str(province)+','+ str(country)
+        #location_geo=str(province)+','+ str(country)
         #print(location_geo)
-        results = self.geocoder.geocode(location_geo)
+        #results = self.geocoder.geocode(location_geo)
 
         #print(u'%f;%f;%s;%s' % (results[0]['geometry']['lat'],
         #                        results[0]['geometry']['lng'],
         #                        results[0]['components']['country_code'],
         #                        results[0]['annotations']['timezone']['name']))
-        geo=str(results[0]['geometry']['lat']) +','+str(results[0]['geometry']['lng'])+ ','+'5000km'
+        #geo=str(results[0]['geometry']['lat']) +','+str(results[0]['geometry']['lng'])+ ','+'5000km'
         #print(geo)
-        tweets = tw.Cursor(self.api.search,q=self.new_search,lang="en",geocode=geo).items(20)
+        tweets = tw.Cursor(self.api.search,q=self.new_search,lang="en").items(20)
         tweetsviatweepy = [[tweet.text.encode('utf-8'), tweet.user.location] for tweet in tweets]
         tweet_text = pd.DataFrame(data=tweetsviatweepy,
                                   columns=['text', "user_location"])
