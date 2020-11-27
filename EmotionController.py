@@ -90,7 +90,7 @@ class EmotionController:
         locationTweet = tweet.getTweetsLatLong(lat, long)
         if(locationTweet.empty==False):
             #print(uniqueHotspot)
-            data[province] = emotions.getScoresforTweets(province, locationTweet)
+            data = emotions.getScoresforTweets(province, locationTweet)
         else:
             data =  {
                 "provinceName": province,
