@@ -5,8 +5,6 @@ Created on Oct 22 2020
 """
 from ExtractTweet import *
 from CalculateSentiment import *
-from Canada import *
-from India import *
 import queue
 from threading import Thread
 import numpy as np
@@ -19,16 +17,10 @@ class EmotionController:
         start = int(time.time())
         data = {}
 
-
-        if(location.casefold() == 'canada'):
-            hotSpots = Canada()
-        if(location.casefold() == 'india'):
-            hotSpots = India()
-
-        hotSpotsValues = hotSpots.getHotSpots()
         print('After taking HorSpots')
         que = queue.Queue()
         threads_list = list()
+        hotSpotsValues=""
         for uniqueHotspot in hotSpotsValues:
             tweet = ExtractTweet()
             print('Getting tweets for hotspots')
