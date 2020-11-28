@@ -10,11 +10,8 @@
 - python3 -m pip install flask_cors
 - python3 -m pip install flask_restful
 - python3 -m pip install tweepy
-- python3 -m pip install opencage
-
 
 # Running the project
-
 Run this command -> python3 ApplicationController.py
 
 #Running Junit

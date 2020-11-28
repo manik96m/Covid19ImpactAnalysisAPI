@@ -43,4 +43,3 @@ api.add_resource(ProvinceScoreList, "/province/score/<string:lat>,<string:long>"
 
 if __name__ == '__main__':
     app.run(debug=True)
-#app.run()

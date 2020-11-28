@@ -7,8 +7,7 @@ from ExtractTweet import *
 from CalculateSentiment import *
 import queue
 from threading import Thread
-import numpy as np
-import time;
+import time
 
 class EmotionController:
 
@@ -25,7 +24,6 @@ class EmotionController:
             tweet = ExtractTweet()
             print('Getting tweets for hotspots')
             th = Thread(target=lambda q, arg1: q.put(tweet.getTweets(uniqueHotspot,location)), args=(que, '' ))
-            #t.append(threading.Thread(target=tweet.getTweets, args=(uniqueHotspot,location)))
             th.start()
             threads_list.append(th)
             print('Ending tweets for hotspots')
@@ -33,11 +31,8 @@ class EmotionController:
 
         # Join all the threads
         for t in threads_list:
-            #t.start()
-            #time.sleep(2)
             print('Joining tweets for hotspots',t)
             t.join();
-            #print('t.isAlive()',t,' -- ', t.isAlive())
 
         # Check thread's return value
         tweets = {}
@@ -53,7 +48,6 @@ class EmotionController:
             print('Starting IBM Tone Analyser')
             th = Thread(target=lambda q, arg1: q.put(self.emotions.getScoresforTweets(
                 location, tweets[location])), args=(que, '' ))
-            #t.append(threading.Thread(target=tweet.getTweets, args=(uniqueHotspot,location)))
             th.start()
             threads_list.append(th)
             print('Ending IBM Tone Analyser')
@@ -61,7 +55,6 @@ class EmotionController:
         # Join all the threads
         for t in threads_list:
             print('Joining IBM Tone Analyser ', t)
-            #t.start()
             t.join()
 
         # Check thread's return value
@@ -70,16 +63,13 @@ class EmotionController:
             location,result  = que.get()
             print("data----",result)
             data[location] = result
-            #tweets[province] = locationTweet
 
-        #print(data)
         stop = int(time.time())
         print("Function(Emotion Controller) a is running at time: " + str(stop-start) + " seconds.")
         return data
 
     def scoreForText(self, text):
         data = self.emotions.getScoreForText(text)
-        #print(data)
         return data
 
     def scoreforProvince(self, lat, long):
@@ -89,10 +79,9 @@ class EmotionController:
         province = str(lat)+ str(long)
         locationTweet = tweet.getTweetsLatLong(lat, long)
         if(locationTweet.empty==False):
-            #print(uniqueHotspot)
             data = emotions.getScoresforTweets(province, locationTweet)
         else:
-            data =  {
+            data = {
                 "provinceName": province,
                 "analyticScore": 0,
                 "tentativeScore": 0,
@@ -102,7 +91,6 @@ class EmotionController:
                 "fearScore": 0,
                 "angerScore": 0
             }
-        #print(data)
         return data
 
     def getTweetsScores(self, hashtag):
@@ -112,7 +100,7 @@ class EmotionController:
         result = tweet.getTweetsHashTag(hashtag)
 
         tweets = {}
-        i = 0;
+        i = 0
         for tweet in result:
             data = emotions.getScoreForText(tweet.text)
             tweets[i] = data
