@@ -10,18 +10,36 @@ api = Api(app)
 
 
 class EmotionScore(Resource):
-    def get(self):
-        return {}
+    emotionController = EmotionController()
+    def get(self, text):
+        return self.emotionController.scoreForText(text)
 
 
 class EmotionScoreList(Resource):
     emotionController = EmotionController()
 
-    def get(self, location='CANADA'):
-        return self.emotionController.start()
+    def get(self, location):
+        return self.emotionController.start(location)
+
+class TweetScoreList(Resource):
+    emotionController = EmotionController()
+
+    def get(self, hashtag):
+        return self.emotionController.getTweetsScores(hashtag)
+
+class ProvinceScoreList(Resource):
+    emotionController = EmotionController()
+
+    def get(self, lat, long):
+        return self.emotionController.scoreforProvince(lat, long)
 
 
-api.add_resource(EmotionScore, "/emotion/score")
+api.add_resource(EmotionScore, "/emotion/score/<string:text>")
 api.add_resource(EmotionScoreList, "/emotion/score/location/<string:location>")
+api.add_resource(TweetScoreList, "/tweet/score/<string:hashtag>")
+api.add_resource(ProvinceScoreList, "/province/score/<string:lat>,<string:long>")
 
-app.run()
+
+
+if __name__ == '__main__':
+    app.run(debug=True)

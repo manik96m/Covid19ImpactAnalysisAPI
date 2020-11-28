@@ -69,7 +69,6 @@ class TestCalculateSentiments(unittest.TestCase):
              Better be at home and take precautionary measures to fight against #CoronavirusPandemic. ;Poetry
             """)
         tweet_text = pd.read_csv(StringData, sep =";")
-        #tweet_text = pd.DataFrame(data=str('').encode('utf-8'), columns=['text', "user_location"])
         cal = CalculateSentiments()
         result = cal.getScoresforTweets('Delhi',tweet_text)
         self.assertTrue(len(result) != 0)
